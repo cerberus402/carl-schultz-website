@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { MantineProvider } from "@mantine/core";
+import { useSignals } from "@preact/signals-react/runtime";
+import { ulid } from "ulid";
+import "./App.css";
+import { If } from "./Components/If";
+import { ViewEntries } from "./Entries/ViewEntries";
+import { ViewForms } from "./Forms/View Forms/ViewForms";
+import { Navbar } from "./Navigation/Navbar";
+import { selectedNavItem } from "./Navigation/NavigationSignals";
 
 function App() {
+  useSignals();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MantineProvider defaultColorScheme="dark">
+      <div className="main-content">
+        <Navbar />
+        <If condition={selectedNavItem.value === "Entries"}>
+          <ViewEntries />
+        </If>
+        <If condition={selectedNavItem.value === "Forms"}>
+          <ViewForms />
+        </If>
+      </div>
+    </MantineProvider>
   );
 }
 
